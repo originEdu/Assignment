@@ -1,0 +1,42 @@
+수행일 26.07.25 15:22 ~16:00
+활용 AI : Cluade Code(Opus 5)
+수행업무 : Cladue Code 설치 및 하네스 프로그래밍 and Skills 추가
+명령 내용 : https://github.com/juliusbrussee/caveman에 있는 cluade code skills 적용시켜줘 -> /caveman
+                https://github.com/DietrichGebert/ponytail의 install을 보고 설치해줘 -> 플러그인 추가함
+                /plugin install superpowers@claude-plugins-official 으로 superpowers 설치
+
+
+활용 AI : Cluade Code(Opus 5)
+사용 목적 : 백엔드 시스템 구조 설계
+사용 범위 : 초기 설계
+명령 내용 : 
+Motion Recognition 기반 서비스의 백엔드 시스템을 만들껀데
+클라이언트 (React  + MediaPipe)로
+백엔드 서버 (FastAPI)로
+데이터베이스 (PostgreSQL)로
+온다비이스인데
+혹시 추가적으로 필요한 설정이 있을까?
+
+AI 답변 검토 또는 수정한 내용
+
+
+활용 AI : Gemini(웹 제미나이)
+사용 목적 : 모르는 용어 및 간단한 질문
+사용 범위 : 궁금증 해소 목적의 질의응답
+질문 내용 : 
+- caveman 설치 후 뜨는  작동하지 않는 스킬 2개 관련된 질문
+- caveman과 superpowers, ponytail가 잘 적용되었는지 확인하는 방법은?
+- 가장 널리 사용되는 Motion Recognition 기반 서비스의 백엔드 시스템 구조
+- 주니어 개발자가 AI를 활용해서 설계, 구현이 가능한 시스템 구조는? 
+  ->[클라이언트 (React  + MediaPipe)]
+  🔹 역할: 웹캠 영상 처리 및 관절 좌표(Skeleton) 실시간 추출 (AI 모델 직접 구동)
+  ⬇️ (REST API)
+   [경량 백엔드 서버 (FastAPI)]
+  🔹 역할: 클라이언트가 보낸 데이터(좌표 또는 결과 수치) 수신, 비즈니스 로직 처리, 세션 관리
+   ⬇️ (SQL)
+   [데이터베이스 (PostgreSQL)]
+   🔹 역할: 회원 정보 및 운동/동작 수행 결과 기록 저장
+
+
+
+
