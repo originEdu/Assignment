@@ -18,6 +18,11 @@ Motion Recognition 기반 서비스의 백엔드 시스템을 만들껀데
 혹시 추가적으로 필요한 설정이 있을까?
 
 AI 답변 검토 또는 수정한 내용
+비밀번호는 bcrypt로 안전하게 저장하고, 
+JWT로 인증하고, 
+async SQLAlchemy로 DB를 다루면서 Alembic으로 스키마를 관리하고, 
+설정은 pydantic-settings로 관리하는" 
+인증 중심 백엔드 기본 셋업
 
 
 활용 AI : Gemini(웹 제미나이)
