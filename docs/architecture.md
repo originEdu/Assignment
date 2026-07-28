@@ -42,7 +42,7 @@ flowchart TB
     UI -->|"POST /auth/refresh"| AUTH
     BUF -->|"POST /sessions/submit [JWT]"| JUDGE
     UI -->|"GET /sessions [JWT]"| REC
-    UI -->|"GET /sessions/{id} [JWT]"| REC
+    UI -->|"GET /sessions/{session_id} [JWT]"| REC
 
     AUTH --> USERS
     JUDGE --> SESSIONS
@@ -144,7 +144,7 @@ sequenceDiagram
     UI-->>U: 기록 목록 표시
 
     U->>UI: 항목 선택
-    UI->>API: GET /sessions/{id} [JWT]
+    UI->>API: GET /sessions/{session_id} [JWT]
     API->>DB: SELECT sessions WHERE id AND user_id
     DB-->>API: row
     API-->>UI: SessionOut { id, gesture_type, submitted_at, result }
