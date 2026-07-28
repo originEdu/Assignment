@@ -43,5 +43,6 @@ async SQLAlchemy로 DB를 다루면서 Alembic으로 스키마를 관리하고,
    🔹 역할: 회원 정보 및 운동/동작 수행 결과 기록 저장
 
 
-
+[리미드에 적을 것]
+다른 PC에서 사용시 .env.example 복사 후 JWT_SECRET과 postgres 비밀번호 채워야 함
 
