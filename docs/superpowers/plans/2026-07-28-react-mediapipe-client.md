@@ -57,7 +57,6 @@
 - Create: `frontend/package.json`
 - Create: `frontend/vite.config.ts`
 - Create: `frontend/tsconfig.json`
-- Create: `frontend/tsconfig.node.json`
 - Create: `frontend/index.html`
 - Create: `frontend/.gitignore`
 - Create: `frontend/src/main.tsx`
@@ -79,7 +78,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run"
   },
@@ -135,30 +134,15 @@ export default defineConfig({
     "types": ["vite/client"],
     "skipLibCheck": true
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"]
 }
 ```
 
 `"types": ["vite/client"]` is load-bearing: without it `import.meta.env.VITE_API_BASE` in Task 6 fails to type-check.
 
-- [ ] **Step 4: Create `frontend/tsconfig.node.json`**
+There is deliberately no `tsconfig.node.json` and no `references` block. Referencing a second project forces `composite: true`, which conflicts with `noEmit`; and type-checking `vite.config.ts` drags in Vitest's bundled copy of Vite, whose `Plugin` type is a different identity from the top-level Vite that `@vitejs/plugin-react` is typed against. Vite compiles its own config at runtime, so `include: ["src"]` is all the build needs.
 
-```json
-{
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "noEmit": true
-  },
-  "include": ["vite.config.ts", "scripts/**/*.mjs"]
-}
-```
-
-- [ ] **Step 5: Create `frontend/index.html`**
+- [ ] **Step 4: Create `frontend/index.html`**
 
 ```html
 <!doctype html>
@@ -175,7 +159,7 @@ export default defineConfig({
 </html>
 ```
 
-- [ ] **Step 6: Create `frontend/.gitignore`**
+- [ ] **Step 5: Create `frontend/.gitignore`**
 
 ```
 node_modules/
@@ -183,7 +167,7 @@ dist/
 public/mediapipe/
 ```
 
-- [ ] **Step 7: Create placeholder `frontend/src/App.tsx`**
+- [ ] **Step 6: Create placeholder `frontend/src/App.tsx`**
 
 ```tsx
 export default function App() {
@@ -191,7 +175,7 @@ export default function App() {
 }
 ```
 
-- [ ] **Step 8: Create `frontend/src/main.tsx`**
+- [ ] **Step 7: Create `frontend/src/main.tsx`**
 
 ```tsx
 import { StrictMode } from "react";
@@ -207,7 +191,7 @@ createRoot(document.getElementById("root")!).render(
 );
 ```
 
-- [ ] **Step 9: Create `frontend/src/styles.css`**
+- [ ] **Step 8: Create `frontend/src/styles.css`**
 
 ```css
 :root {
@@ -244,7 +228,7 @@ nav {
 }
 ```
 
-- [ ] **Step 10: Write the smoke test**
+- [ ] **Step 9: Write the smoke test**
 
 Create `frontend/src/smoke.test.ts`:
 
@@ -256,7 +240,7 @@ test("vitest runs", () => {
 });
 ```
 
-- [ ] **Step 11: Install and run the test**
+- [ ] **Step 10: Install and run the test**
 
 Run from `frontend/`:
 
@@ -267,12 +251,12 @@ npm test
 
 Expected: `1 passed`. `npm install` will warn that no `postinstall` script exists only if you added the entry — it should not be there yet.
 
-- [ ] **Step 12: Verify the build**
+- [ ] **Step 11: Verify the build**
 
 Run: `npm run build`
 Expected: exits 0, writes `dist/`.
 
-- [ ] **Step 13: Commit**
+- [ ] **Step 12: Commit**
 
 ```bash
 git add frontend/
