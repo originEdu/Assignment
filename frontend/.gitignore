@@ -2,3 +2,6 @@ node_modules/
 dist/
 public/mediapipe/
 *.tsbuildinfo
+.env
+.env.*.local
+.env.local

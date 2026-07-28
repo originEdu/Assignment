@@ -79,7 +79,11 @@ export default function RecordScreen() {
 
     try {
       if (!navigator.mediaDevices?.getUserMedia) throw new Error("insecure context");
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      // Prefer the rear camera on phones. Without `exact` this is a hint, so
+      // desktops with a single camera are unaffected.
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+      });
       streamRef.current = stream;
       const video = videoRef.current!;
       video.srcObject = stream;
