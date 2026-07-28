@@ -82,6 +82,8 @@ pytest
 
 ## 클라이언트 연동 메모
 
+- React + MediaPipe 클라이언트는 저장소 루트의 `frontend/`에 있습니다. 실행 방법은
+  `frontend/README.md` 참고.
 - `getUserMedia`(웹캠)는 **HTTPS 또는 localhost**에서만 동작. 로컬 개발은 OK, 배포 시 HTTPS 필수.
 - CORS 허용 오리진은 `.env`의 `CORS_ORIGINS`로 설정 (기본: Vite 5173, CRA 3000).
 
