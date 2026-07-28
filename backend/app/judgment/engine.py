@@ -11,9 +11,11 @@ from app.judgment.gestures import GESTURES
 from app.judgment.schemas import GestureSubmission, Landmark
 
 WRIST = 0
-# (tip, pip) landmark indices for each finger, in gesture-pattern order.
+THUMB_TIP, THUMB_IP = 4, 3
+PINKY_MCP = 17
+# (tip, pip) landmark indices for index through pinky, in gesture-pattern
+# order. The thumb is handled separately — see `finger_states`.
 FINGER_JOINTS: list[tuple[int, int]] = [
-    (4, 2),    # thumb
     (8, 6),    # index
     (12, 10),  # middle
     (16, 14),  # ring
@@ -28,12 +30,24 @@ def _xyz(landmark: Landmark) -> tuple[float, float, float]:
 def finger_states(landmarks: list[Landmark]) -> tuple[bool, ...]:
     """A finger is 'extended' when its tip is farther from the wrist than its
     PIP joint. Uses distances only, so it is robust to hand orientation and
-    left/right handedness."""
+    left/right handedness.
+
+    The thumb cannot use the wrist as its reference. It folds sideways across
+    the palm rather than curling toward the wrist, so a folded thumb tip stays
+    farther from the wrist than the joint below it and would always read as
+    extended. Measuring against the pinky MCP instead captures the motion that
+    actually happens: folding carries the tip across the palm toward the pinky,
+    extending carries it away.
+    """
     wrist = _xyz(landmarks[WRIST])
-    states = []
+    pinky_mcp = _xyz(landmarks[PINKY_MCP])
+
+    thumb_extended = dist(_xyz(landmarks[THUMB_TIP]), pinky_mcp) > dist(
+        _xyz(landmarks[THUMB_IP]), pinky_mcp
+    )
+    states = [thumb_extended]
     for tip, pip in FINGER_JOINTS:
-        extended = dist(_xyz(landmarks[tip]), wrist) > dist(_xyz(landmarks[pip]), wrist)
-        states.append(extended)
+        states.append(dist(_xyz(landmarks[tip]), wrist) > dist(_xyz(landmarks[pip]), wrist))
     return tuple(states)
 
 
