@@ -8,13 +8,14 @@ React + MediaPipe(온디바이스)에서 추출한 **손 랜드마크 시퀀스*
 - **DB**: PostgreSQL + async SQLAlchemy 2.0 + Alembic
 - **판정 엔진**: `app/judgment/engine.py` — FastAPI/DB에 의존하지 않는 순수 로직
 
-## 사전 설치 (이 PC에는 아직 없음)
+## 사전 설치
 
 1. **Python 3.11+** — <https://www.python.org/downloads/> (설치 시 *Add python.exe to PATH* 체크)
    - 또는 winget: `winget install Python.Python.3.12`
 2. **PostgreSQL 14+** — <https://www.postgresql.org/download/windows/>
-   - 또는 winget: `winget install PostgreSQL.PostgreSQL.16`
+   - 또는 winget: `winget install PostgreSQL.PostgreSQL.16` (**관리자 권한 필요**)
    - 설치 후 DB 생성: `createdb motion` (또는 psql에서 `CREATE DATABASE motion;`)
+   - 설치 시 지정한 `postgres` 비밀번호를 `.env`의 `DATABASE_URL`에 반영할 것
 
 > 테스트 스위트(`pytest`)는 인메모리 SQLite를 쓰므로 **PostgreSQL 없이도** 실행됩니다.
 > 실제 서버 구동(`uvicorn`) 및 마이그레이션에는 PostgreSQL이 필요합니다.
