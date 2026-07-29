@@ -1,12 +1,21 @@
+// `id` is the wire value the backend judges against (app/judgment/gestures.py).
+// `label` is display-only — changing it never affects scoring.
 export const GESTURES = [
-  "open_palm",
-  "fist",
-  "thumbs_up",
-  "peace",
-  "pointing",
+  { id: "open_palm", label: "보자기" },
+  { id: "fist", label: "주먹" },
+  { id: "thumbs_up", label: "엄지척" },
+  { id: "peace", label: "브이" },
+  { id: "pointing", label: "삿대질" },
 ] as const;
 
-export type Gesture = (typeof GESTURES)[number];
+export type Gesture = (typeof GESTURES)[number]["id"];
+
+/** Display name for a gesture id. Unknown ids pass through unchanged so old
+ *  records still render. */
+export function gestureLabel(id: string | null): string | null {
+  if (id === null) return null;
+  return GESTURES.find((gesture) => gesture.id === id)?.label ?? id;
+}
 
 export interface Landmark {
   x: number;

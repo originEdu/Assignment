@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 
 import { ApiError } from "../api/client";
-import { GESTURES } from "../api/types";
+import { GESTURES, gestureLabel } from "../api/types";
 import type { Gesture, JudgeResult } from "../api/types";
 import { isSessionExpired, useAuth } from "../auth/AuthContext";
 import { FrameBuffer, MAX_FRAMES } from "../hands/frameBuffer";
@@ -33,7 +33,7 @@ export default function RecordScreen() {
   const streamRef = useRef<MediaStream | null>(null);
   const rafRef = useRef<number | null>(null);
 
-  const [target, setTarget] = useState<Gesture>(GESTURES[0]);
+  const [target, setTarget] = useState<Gesture>(GESTURES[0].id);
   const [recording, setRecording] = useState(false);
   const [frameCount, setFrameCount] = useState(0);
   const [handVisible, setHandVisible] = useState(false);
@@ -134,8 +134,8 @@ export default function RecordScreen() {
             onChange={(e) => setTarget(e.target.value as Gesture)}
           >
             {GESTURES.map((gesture) => (
-              <option key={gesture} value={gesture}>
-                {gesture}
+              <option key={gesture.id} value={gesture.id}>
+                {gesture.label}
               </option>
             ))}
           </select>
@@ -175,7 +175,7 @@ export default function RecordScreen() {
       {result && (
         <section>
           <h2>판정 결과</h2>
-          <p>인식된 제스처: {result.matched_gesture ?? "없음"}</p>
+          <p>인식된 제스처: {gestureLabel(result.matched_gesture) ?? "없음"}</p>
           <p>점수: {result.score}</p>
           <p>
             일치 프레임: {result.frames_matched} / {result.frames_total}

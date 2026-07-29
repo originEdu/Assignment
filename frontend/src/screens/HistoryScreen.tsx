@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { ApiError } from "../api/client";
+import { gestureLabel } from "../api/types";
 import type { SessionOut } from "../api/types";
 import { isSessionExpired, useAuth } from "../auth/AuthContext";
 
@@ -61,7 +62,7 @@ export default function HistoryScreen() {
         {sessions.map((session) => (
           <li key={session.id}>
             <button onClick={() => void open(session.id)}>
-              #{session.id} · {session.gesture_type ?? "지정 없음"} ·{" "}
+              #{session.id} · {gestureLabel(session.gesture_type) ?? "지정 없음"} ·{" "}
               {session.result ? `${session.result.score}점` : "결과 없음"} ·{" "}
               {new Date(session.submitted_at).toLocaleString()}
             </button>
@@ -72,11 +73,11 @@ export default function HistoryScreen() {
       {selected && (
         <section>
           <h2>세션 #{selected.id}</h2>
-          <p>목표 제스처: {selected.gesture_type ?? "지정 없음"}</p>
+          <p>목표 제스처: {gestureLabel(selected.gesture_type) ?? "지정 없음"}</p>
           <p>제출 시각: {new Date(selected.submitted_at).toLocaleString()}</p>
           {selected.result && (
             <>
-              <p>인식된 제스처: {selected.result.matched_gesture ?? "없음"}</p>
+              <p>인식된 제스처: {gestureLabel(selected.result.matched_gesture) ?? "없음"}</p>
               <p>점수: {selected.result.score}</p>
               <p>
                 일치 프레임: {selected.result.detail.frames_matched} /{" "}
